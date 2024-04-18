@@ -20,7 +20,7 @@ button.onclick = async () => {
       try {
         let redirect_uri = new URLSearchParams(authorization_url).get("redirect_uri")
         let popup_url = (new URL(popup.location.href)).toString()
-        let hashParams = new URLSearchParams(popup_url.hash.substring(1))
+        let hashParams = new URLSearchParams(popup.location.hash.substring(1))
 
         // if popup url not redirect_uri, wait for redirect to complete 
         if (!popup_url.startsWith(redirect_uri)) {

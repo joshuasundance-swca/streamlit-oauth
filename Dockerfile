@@ -21,7 +21,8 @@ COPY README.md /streamlit_oauth/README.md
 COPY setup.py /streamlit_oauth/setup.py
 
 COPY ./streamlit_oauth/ /streamlit_oauth/streamlit_oauth/
-COPY --from=npmbuilder /streamlit_oauth/streamlit_oauth/frontend/dist /streamlit_oauth/streamlit_oauth/frontend/dist
+COPY --from=npmbuilder /streamlit_oauth/streamlit_oauth/frontend/ /streamlit_oauth/streamlit_oauth/frontend/
+#COPY --from=npmbuilder /streamlit_oauth/streamlit_oauth/frontend/build /streamlit_oauth/streamlit_oauth/frontend/build
 
 RUN pip install --user --no-cache-dir .
 
