@@ -1,14 +1,16 @@
-import os
-import streamlit.components.v1 as components
 import asyncio
-import streamlit as st
-from httpx_oauth.oauth2 import OAuth2
 import base64
+import hashlib
+import json
+import logging
+import os
+import secrets
 import time
 import uuid
-import hashlib
-import base64
-import secrets
+
+import streamlit as st
+import streamlit.components.v1 as components
+from httpx_oauth.oauth2 import OAuth2
 
 _RELEASE = False
 # comment out the following line to use the local dev server
@@ -107,7 +109,14 @@ class OAuth2Component:
         result['token'] = asyncio.run(self.client.get_access_token(**args))
       if 'id_token' in result:
         # TODO: verify id_token
-        result['id_token'] = base64.b64decode(result['id_token'].split('.')[1] + '==')
+        _id_token = result['id_token']
+        _id_token_b64 = _id_token.split('.')[1] + '=='
+        _id_token_b64_decoded = base64.b64decode(_id_token_b64)
+        try:
+            _id_token_dict = json.loads(_id_token_b64_decoded)
+            result['id_token'] = _id_token_dict
+        except json.decoder.JSONDecodeError:
+            result['id_token'] = _id_token_b64_decoded
 
     return result
   
