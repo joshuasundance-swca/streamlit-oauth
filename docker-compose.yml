@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  streamlitapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: streamlitapp
+    ports:
+      - "8501:8501"
+  builder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: artifactbuilder
+    volumes:
+      - ./artifacts:/streamlit_oauth_artifacts
