@@ -20,7 +20,7 @@ button.onclick = async () => {
       try {
         let redirect_uri = new URLSearchParams(authorization_url).get("redirect_uri")
         let popup_url = (new URL(popup.location.href)).toString()
-        let urlParams = new URLSearchParams(popup.location.search)
+        let hashParams = new URLSearchParams(popup_url.hash.substring(1))
 
         // if popup url not redirect_uri, wait for redirect to complete 
         if (!popup_url.startsWith(redirect_uri)) {
@@ -31,8 +31,8 @@ button.onclick = async () => {
         popup.close()
         clearInterval(interval)
         let result = {}
-        for(let pairs of urlParams.entries()) {
-          result[pairs[0]] = pairs[1]
+        for (let [key, value] of hashParams.entries()) {
+          result[key] = value
         }
 
         return resolve(result)
